@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Para Minha Linda</title>
+  <style>
+    /* Estilo geral */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      overflow: hidden;
+      text-align: center;
+      color: #fff;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 50px 30px;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      z-index: 10;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1.5rem;
+      margin-bottom: 40px;
+    }
+
+    button {
+      padding: 15px 30px;
+      margin: 0 15px;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: #fff;
+      z-index: 10;
+      position: relative;
+    }
+
+    #sim {
+      background: linear-gradient(45deg, #ff6a95, #ff87c2);
+    }
+
+    #sim:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px #fff;
+    }
+
+    #nao {
+      background: linear-gradient(45deg, #a1c4fd, #c2e9fb);
+      position: relative;
+    }
+
+    /* Confete */
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: #fff;
+      top: 0;
+      left: 50%;
+      opacity: 0;
+      pointer-events: none;
+      animation: fall 2s linear forwards;
+      border-radius: 50%;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(500px) rotate(360deg); opacity: 0; }
+    }
+
+    /* Corações animados no fundo */
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: #ff6a95;
+      transform: rotate(-45deg);
+      animation: float 5s linear infinite;
+      opacity: 0.8;
+      z-index: 1;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: #ff6a95;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: 10px;
+      top: 0;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(100vh) scale(1) rotate(0deg); opacity: 0.8;}
+      50% { opacity: 1; }
+      100% { transform: translateY(-50vh) scale(0.5) rotate(360deg); opacity: 0;}
+    }
+  </style>
+</head>
+<body>
+  <!-- Música de fundo -->
+  <audio autoplay loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Container principal -->
+  <div class="container">
+    <h1>Minha Linda e Perfeita</h1>
+    <p>Quer casar comigo?</p>
+    <button id="sim">Sim 💖</button>
+    <button id="nao">Não 😢</button>
+  </div>
+
+  <script>
+    const sim = document.getElementById('sim');
+    const nao = document.getElementById('nao');
+
+    // Botão "Não" foge do mouse
+    nao.addEventListener('mouseenter', () => {
+      const x = Math.random() * (window.innerWidth - nao.offsetWidth);
+      const y = Math.random() * (window.innerHeight - nao.offsetHeight);
+      nao.style.position = 'absolute';
+      nao.style.left = x + 'px';
+      nao.style.top = y + 'px';
+    });
+
+    // Função de confete
+    function celebrate() {
+      for (let i = 0; i < 50; i++) {
+        const confetti = document.createElement('div');
+        confetti.classList.add('confetti');
+        confetti.style.left = Math.random() * window.innerWidth + 'px';
+        confetti.style.backgroundColor = `hsl(${Math.random()*360}, 100%, 70%)`;
+        confetti.style.animationDuration = 1 + Math.random()*2 + 's';
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 3000);
+      }
+      alert('💖 Eu te amo! Vamos casar! 💖');
+    }
+
+    sim.addEventListener('click', celebrate);
+    nao.addEventListener('click', () => {
+      nao.style.display = 'none';
+      celebrate();
+    });
+
+    // Criar corações flutuando
+    function createHearts() {
+      for (let i = 0; i < 20; i++) {
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.style.left = Math.random() * window.innerWidth + 'px';
+        heart.style.animationDuration = (3 + Math.random() * 5) + 's';
+        heart.style.width = 10 + Math.random() * 30 + 'px';
+        heart.style.height = heart.style.width;
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 8000);
+      }
+    }
+
+    setInterval(createHearts, 500);
+  </script>
+</body>
+</html>
